@@ -5,30 +5,30 @@ package msg;
 option go_package = "github.com/ggymm-chat/protocol/msg";
 
 enum MsgType {
-  Text = 0;
-  Image = 1;
-  Voice = 2;
-  Video = 3;
-  File = 4;
+    Text = 0;
+    Image = 1;
+    Voice = 2;
+    Video = 3;
+    File = 4;
 }
 
 enum DeviceType {
-  Android = 0;
-  IOS = 1;
-  Web = 2;
-  PC = 3;
+    Android = 0;
+    IOS = 1;
+    Web = 2;
+    PC = 3;
 }
 
 message MsgData {
-  string send_id = 1;
-  string receive_id = 2;
+    string send_id = 1;
+    string receive_id = 2;
 
-  MsgType msg_type = 10;
-  string msg_content = 11;
-  int64 msg_send_time = 12;
+    MsgType msg_type = 10;
+    string msg_content = 11;
+    int64 msg_send_time = 12;
 
-  DeviceType device_type = 20;
-  string device_id = 21;
+    DeviceType device_type = 20;
+    string device_id = 21;
 
-  string extra = 99;
+    string extra = 99;
 }

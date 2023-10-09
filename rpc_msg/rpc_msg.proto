@@ -5,16 +5,16 @@ import "msg/msg.proto";
 
 option go_package = "github.com/ggymm-chat/protocol/rpc_message";
 
-message SendMsgReq {
-  msg.MsgData msgData = 1;
+message SendMsgRequest {
+    msg.MsgData msg_data = 1;
 }
 
-message SendMsgResp {
-  int32 code = 1;
-  string msg = 2;
+message SendMsgResponse {
+    int32 code = 1;
+    string msg = 2;
 }
 
-service rpc_msg {
-  // 发送消息
-  rpc SendMsg(SendMsgReq) returns(SendMsgResp);
+service MsgService {
+    // 发送消息
+    rpc SendMsg(SendMsgRequest) returns(SendMsgResponse);
 }

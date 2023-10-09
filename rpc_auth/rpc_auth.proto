@@ -1,0 +1,18 @@
+syntax = "proto3";
+
+package rpc_auth;
+
+option go_package = "github.com/ggymm-chat/protocol/rpc_auth";
+
+message LoginRequest {
+    string user_id = 1;
+    string device_id = 2;
+}
+
+message LoginResponse {
+    string token = 1;
+}
+
+service AuthService {
+    rpc Login(LoginRequest) returns (LoginResponse);
+}

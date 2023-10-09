@@ -19,89 +19,91 @@ import (
 const _ = grpc.SupportPackageIsVersion7
 
 const (
-	RpcMsg_SendMsg_FullMethodName = "/rpc_msg.rpc_msg/SendMsg"
+	MsgService_SendMsg_FullMethodName = "/rpc_msg.MsgService/SendMsg"
 )
 
-// RpcMsgClient is the client API for RpcMsg service.
+// MsgServiceClient is the client API for MsgService service.
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
-type RpcMsgClient interface {
-	SendMsg(ctx context.Context, in *SendMessageReq, opts ...grpc.CallOption) (*SendMessageResp, error)
+type MsgServiceClient interface {
+	// 发送消息
+	SendMsg(ctx context.Context, in *SendMsgRequest, opts ...grpc.CallOption) (*SendMsgResponse, error)
 }
 
-type rpcMsgClient struct {
+type msgServiceClient struct {
 	cc grpc.ClientConnInterface
 }
 
-func NewRpcMsgClient(cc grpc.ClientConnInterface) RpcMsgClient {
-	return &rpcMsgClient{cc}
+func NewMsgServiceClient(cc grpc.ClientConnInterface) MsgServiceClient {
+	return &msgServiceClient{cc}
 }
 
-func (c *rpcMsgClient) SendMsg(ctx context.Context, in *SendMessageReq, opts ...grpc.CallOption) (*SendMessageResp, error) {
-	out := new(SendMessageResp)
-	err := c.cc.Invoke(ctx, RpcMsg_SendMsg_FullMethodName, in, out, opts...)
+func (c *msgServiceClient) SendMsg(ctx context.Context, in *SendMsgRequest, opts ...grpc.CallOption) (*SendMsgResponse, error) {
+	out := new(SendMsgResponse)
+	err := c.cc.Invoke(ctx, MsgService_SendMsg_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-// RpcMsgServer is the server API for RpcMsg service.
-// All implementations must embed UnimplementedRpcMsgServer
+// MsgServiceServer is the server API for MsgService service.
+// All implementations must embed UnimplementedMsgServiceServer
 // for forward compatibility
-type RpcMsgServer interface {
-	SendMsg(context.Context, *SendMessageReq) (*SendMessageResp, error)
-	mustEmbedUnimplementedRpcMsgServer()
+type MsgServiceServer interface {
+	// 发送消息
+	SendMsg(context.Context, *SendMsgRequest) (*SendMsgResponse, error)
+	mustEmbedUnimplementedMsgServiceServer()
 }
 
-// UnimplementedRpcMsgServer must be embedded to have forward compatible implementations.
-type UnimplementedRpcMsgServer struct {
+// UnimplementedMsgServiceServer must be embedded to have forward compatible implementations.
+type UnimplementedMsgServiceServer struct {
 }
 
-func (UnimplementedRpcMsgServer) SendMsg(context.Context, *SendMessageReq) (*SendMessageResp, error) {
+func (UnimplementedMsgServiceServer) SendMsg(context.Context, *SendMsgRequest) (*SendMsgResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method SendMsg not implemented")
 }
-func (UnimplementedRpcMsgServer) mustEmbedUnimplementedRpcMsgServer() {}
+func (UnimplementedMsgServiceServer) mustEmbedUnimplementedMsgServiceServer() {}
 
-// UnsafeRpcMsgServer may be embedded to opt out of forward compatibility for this service.
-// Use of this interface is not recommended, as added methods to RpcMsgServer will
+// UnsafeMsgServiceServer may be embedded to opt out of forward compatibility for this service.
+// Use of this interface is not recommended, as added methods to MsgServiceServer will
 // result in compilation errors.
-type UnsafeRpcMsgServer interface {
-	mustEmbedUnimplementedRpcMsgServer()
+type UnsafeMsgServiceServer interface {
+	mustEmbedUnimplementedMsgServiceServer()
 }
 
-func RegisterRpcMsgServer(s grpc.ServiceRegistrar, srv RpcMsgServer) {
-	s.RegisterService(&RpcMsg_ServiceDesc, srv)
+func RegisterMsgServiceServer(s grpc.ServiceRegistrar, srv MsgServiceServer) {
+	s.RegisterService(&MsgService_ServiceDesc, srv)
 }
 
-func _RpcMsg_SendMsg_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(SendMessageReq)
+func _MsgService_SendMsg_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(SendMsgRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(RpcMsgServer).SendMsg(ctx, in)
+		return srv.(MsgServiceServer).SendMsg(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: RpcMsg_SendMsg_FullMethodName,
+		FullMethod: MsgService_SendMsg_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(RpcMsgServer).SendMsg(ctx, req.(*SendMessageReq))
+		return srv.(MsgServiceServer).SendMsg(ctx, req.(*SendMsgRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-// RpcMsg_ServiceDesc is the grpc.ServiceDesc for RpcMsg service.
+// MsgService_ServiceDesc is the grpc.ServiceDesc for MsgService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
-var RpcMsg_ServiceDesc = grpc.ServiceDesc{
-	ServiceName: "rpc_msg.rpc_msg",
-	HandlerType: (*RpcMsgServer)(nil),
+var MsgService_ServiceDesc = grpc.ServiceDesc{
+	ServiceName: "rpc_msg.MsgService",
+	HandlerType: (*MsgServiceServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
 			MethodName: "SendMsg",
-			Handler:    _RpcMsg_SendMsg_Handler,
+			Handler:    _MsgService_SendMsg_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
