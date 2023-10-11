@@ -4,7 +4,7 @@
 // - protoc             (unknown)
 // source: rpc_msg/rpc_msg.proto
 
-package rpc_message
+package rpc_msg
 
 import (
 	context "context"

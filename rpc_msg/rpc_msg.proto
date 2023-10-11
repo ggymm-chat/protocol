@@ -3,7 +3,7 @@ syntax = "proto3";
 package rpc_msg;
 import "msg/msg.proto";
 
-option go_package = "github.com/ggymm-chat/protocol/rpc_message";
+option go_package = "github.com/ggymm-chat/protocol/rpc_msg";
 
 message SendMsgRequest {
     msg.MsgData msg_data = 1;
